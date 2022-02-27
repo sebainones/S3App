@@ -13,12 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-
-    - name: Display the path
-      run: echo $PATH
-      shell: bash
-
-    - name: Display thePWD
+    
+    - name: Display the PWD
       run: pwd
       shell: bash
 
@@ -27,8 +23,9 @@ jobs:
       with:
        dotnet-version: '3.1.x' # SDK Version to use; x will use the latest version of the 3.1 channel
       
+      #/home/runner/work/S3App/S3App
     - name: Restore dependencies 📦
-      run: dotnet restore '**/S3WebApp.sln'
+      run: dotnet restore './S3WebApp/S3WebApp.sln'
 
     - name: Build 🔨
       run: dotnet build --no-restore
