@@ -14,13 +14,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+
+
     - name: Setup .NET ⚙️
       uses: actions/setup-dotnet@v1
       with:
        dotnet-version: '3.1.x' # SDK Version to use; x will use the latest version of the 3.1 channel
       
     - name: Restore dependencies 📦
-      run: dotnet restore
+      run: dotnet restore '**/S3WebApp.sln'
 
     - name: Build 🔨
       run: dotnet build --no-restore
