@@ -18,6 +18,10 @@ jobs:
       run: echo $PATH
       shell: bash
 
+    - name: Display thePWD
+      run: pwd
+      shell: bash
+
     - name: Setup .NET ⚙️
       uses: actions/setup-dotnet@v1
       with:
