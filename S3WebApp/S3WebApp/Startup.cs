@@ -1,16 +1,10 @@
+using Amazon.S3;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace S3WebApp
 {
@@ -28,6 +22,9 @@ namespace S3WebApp
         {
             services.AddControllers();
             services.AddCustomSwagger(Configuration);
+
+            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
+            services.AddAWSService<IAmazonS3>();
 
         }
 
