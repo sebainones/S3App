@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Amazon.S3;
+using Amazon.S3.Model;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Threading.Tasks;
 
 namespace S3WebApp.Controllers
 {
@@ -10,16 +13,44 @@ namespace S3WebApp.Controllers
     public class S3Controller : ControllerBase
     {
         private readonly ILogger<S3Controller> _logger;
+        private readonly AmazonS3Client _client;
 
-        public S3Controller(ILogger<S3Controller> logger)
+        public IAmazonS3 S3Client { get; set; }
+        public S3Controller(ILogger<S3Controller> logger, IAmazonS3 s3Client)
         {
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+            if (s3Client is null)
+            {
+                throw new ArgumentNullException(nameof(s3Client));
+            }
+            _client = (s3Client as AmazonS3Client);
         }
 
-        [HttpGet]
-        public IAsyncResult Get()
+        [HttpGet("/api/s3", Name = "GetAllBuckets")]
+        public async Task<IActionResult> GetAllBucketsAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                // Issue call                
+                ListBucketsResponse response = await _client.ListBucketsAsync(default);
+
+                // Issue call
+
+                // View response data
+                Console.WriteLine("Buckets owner - {0}", response.Owner.DisplayName);
+                foreach (S3Bucket bucket in response.Buckets)
+                {
+                    Console.WriteLine("Bucket {0}, Created on {1}", bucket.BucketName, bucket.CreationDate);
+                }
+
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, null);
+            }
+            return null;
         }
 
         // POST: S3Controller/Create
