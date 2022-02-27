@@ -1,83 +1,85 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 
 namespace S3WebApp.Controllers
 {
-    public class S3Controller : Controller
+    [ApiController]
+    [Route("[controller]")]
+    public class S3Controller : ControllerBase
     {
-        // GET: S3Controller
-        public ActionResult Index()
+        private readonly ILogger<S3Controller> _logger;
+
+        public S3Controller(ILogger<S3Controller> logger)
         {
-            return View();
+            _logger = logger;
         }
 
-        // GET: S3Controller/Details/5
-        public ActionResult Details(int id)
+        [HttpGet]
+        public IAsyncResult Get()
         {
-            return View();
-        }
-
-        // GET: S3Controller/Create
-        public ActionResult Create()
-        {
-            return View();
+            throw new NotImplementedException();
         }
 
         // POST: S3Controller/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult CreateBucket()
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                return null;
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                _logger.LogError(e.Message, null);
             }
+            return null;
         }
 
         // GET: S3Controller/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+        //public ActionResult Edit(int id)
+        //{
+        //    return View();
+        //}
 
-        // POST: S3Controller/Edit/5
-        [HttpPost]
+        //POST: S3Controller/Edit/5
+        [HttpPut]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                return null;
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                _logger.LogError(e.Message, null);
             }
+            return null;
         }
 
         // GET: S3Controller/Delete/5
+        [HttpDelete]
         public ActionResult Delete(int id)
         {
-            return View();
+            return null;
         }
 
-        // POST: S3Controller/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //// POST: S3Controller/Delete/5
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Delete(int id, IFormCollection collection)
+        //{
+        //    try
+        //    {
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
     }
 }
